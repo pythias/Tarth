@@ -1,0 +1,25 @@
+{
+    "name": "got/tarth",
+    "description": "请求异步化框架",
+    "keywords": ["async", "PHP", "daemon"],
+    "homepage": "https://github.com/pythias/Tarth",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3",
+        "got/stark": "*",
+        "monolog/monolog": "*",
+        "php-curl-class/php-curl-class": "*",
+        "ext-pcntl": "*", 
+        "ext-redis": "*"
+    },
+    "autoload": {
+        "psr-4": {"Tarth\\": "src/Tarth"}
+    },
+    "authors": [
+        {
+            "name" : "Chenjie",
+            "email": "pythias@gmail.com"
+        }
+    ]
+}
