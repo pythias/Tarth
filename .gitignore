@@ -18,6 +18,7 @@
 .tmproj
 nbproject
 Thumbs.db
+.idea
 
 # Composer
 composer.lock
