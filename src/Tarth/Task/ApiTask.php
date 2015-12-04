@@ -11,6 +11,9 @@ class ApiTask extends AbstractTask {
     public $timeout = 5;
     public $header = array();
     public $includeTarthHeader = false;
+    public $host = '';
+    public $successCode = '';
+    public $statusKey = 'code';
 
     protected function _processTask() {
         try {
@@ -26,6 +29,17 @@ class ApiTask extends AbstractTask {
                     $curl->setHeader($key, $value);
                 }
             }
+
+            //设定自定义host
+            if ($this->host) {
+                $curl->setOpt(CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+                $curl->setOpt(CURLOPT_PROXY, $this->host);
+                $port = $this->_getUrlPort($this->url);
+
+                if ($port) {
+                    $curl->setOpt(CURLOPT_PROXYPORT, $port);
+                }
+            }
             
             call_user_func_array(array($curl, strtolower($this->method)), array($this->url, $this->data));
             
@@ -33,7 +47,18 @@ class ApiTask extends AbstractTask {
                 return false;
             } else {
                 //响应码大于300为请求失败
-                return $curl->httpStatusCode < 300;
+                if ($curl->httpStatusCode >= 300) {
+                    return false;
+                }
+
+                //自定义
+                if ($this->successCode) {
+                    $ret = (is_array($curl->response) ? $curl->response : json_decode($curl->response, true));
+
+                    return (isset($ret[$this->statusKey]) && $ret[$this->statusKey] == $this->successCode);
+                }
+
+                return true;
                 
                 //接口返回为json格式，返回值中有code为0
                 //return $curl->response->code == 0;
@@ -41,6 +66,26 @@ class ApiTask extends AbstractTask {
         } catch (Exception $e) {
             
         }
+    }
+
+    protected function _getUrlPort($url) {
+        $ret = parse_url($url);
+
+        if (isset($ret['scheme'])) {
+            if (isset($ret['port'])) {
+                return $ret['port'];
+            }
+
+            if ($ret['scheme'] == 'http') {
+                return 80;
+            }
+
+            if ($ret['scheme'] == 'https') {
+                return 443;
+            }
+        }
+
+        return false;
     }
 
     public function key() {
