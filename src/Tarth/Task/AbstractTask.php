@@ -77,8 +77,6 @@ abstract class AbstractTask extends Params implements TaskInterface {
     }
 
     private function _canRun() {
-        $this->_initPolicies();
-
         foreach ($this->policies as $policy) {
             $status = $policy->beforeRun($this);
             if ($status !== true) {
@@ -96,7 +94,7 @@ abstract class AbstractTask extends Params implements TaskInterface {
         }
     }
 
-    private function _initPolicies() {
+    protected function _initPolicies() {
         if (empty($this->policies)) {
             $this->policies = array();
             return;
@@ -127,6 +125,8 @@ abstract class AbstractTask extends Params implements TaskInterface {
         if ($task->id == 0) {
             $task->id = self::newId();
         }
+
+        $task->_initPolicies();
 
         return $task;
     }
