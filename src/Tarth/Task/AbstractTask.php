@@ -132,7 +132,7 @@ abstract class AbstractTask extends Params implements TaskInterface {
     }
 
     static public function newId() {
-        return sprintf("%u%04u", microtime(true) * 1000000, rand(0, 9999));
+        return sprintf("%u%02u", microtime(true) * 1000000, rand(0, 99));
     }
 
     private function _addPolicy($policy) {
