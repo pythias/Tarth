@@ -1,18 +1,15 @@
-Tarth
-==========
+# Tarth
 
 `Tarth` is an asynchronous, concurrent, distributed task process framework. 
 
-Requires
---------
+## Requires
 
 * PHP 5.3 or Higher
 * A POSIX compatible operating system (Linux, OSX, BSD)
 * POSIX and PCNTL extensions for PHP
 * Redis extensions 
 
-Features
---------
+## Features
 
 * Asynchronous API callback, multi API callback
 * Support timing callback, similar to crontab, but include retry, security, controllable options
@@ -20,21 +17,19 @@ Features
 * Support callback priority level
 * Stark Features
 
-Usage
---------
+## Usage
 
 You can use `Stark` to start the timer and processor daemon:
 ```bash
-php vendor/got/stark/src/Stark/run.php -f scripts/timer.ini
-php vendor/got/stark/src/Stark/run.php -f scripts/processor.ini
+php vendor/bin/stark -f scripts/timer.ini
+php vendor/bin/stark -f scripts/processor.ini
 ```
 
-Daemon
---------
+## Daemon
+
 Use [Stark](https://github.com/pythias/Stark)
 
-Task Tools
---------
+## Task Tools
 
 ### API
 Class: \Tarth\Tool\Task
@@ -56,6 +51,10 @@ static public function isRequestFromTarth()
 ```
 ### Samples
 #### Normal task
+```bash
+php tests/normal_api_task.php
+```
+
 ```php
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -67,6 +66,10 @@ $task = \Tarth\Tool\Task::createApiTask('http://alleria.mcp.wap.grid.sina.com.cn
 echo \Tarth\Tool\Task::exec();
 ```
 #### Timer task
+```bash
+php tests/timer_task.php
+```
+
 ```php
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -78,6 +81,10 @@ echo \Tarth\Tool\Task::exec();
 
 ```
 #### Multi task
+```bash
+php tests/multi_task.php
+```
+
 ```php
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -88,6 +95,10 @@ echo \Tarth\Tool\Task::exec();
 
 ```
 #### Atom task
+```bash
+php tests/atom_task.php
+```
+
 ```php
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -101,9 +112,7 @@ echo \Tarth\Tool\Task::exec();
 
 ```
 
-Configs
---------
-
+## Configs
 ### Daemon configs
 See [Stark](https://github.com/pythias/Stark)
 ### Redis configs
@@ -122,8 +131,7 @@ key = "tarth-queue-0 tarth-queue-1 tarth-queue-2"
 \Tarth\Tool\Redis::setQueueServer('127.0.0.1:6379');
 ```
 
-Task Options
---------
+## Task Options
 
 ```php
 public function setPriority($level)
