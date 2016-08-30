@@ -50,6 +50,15 @@ static public function getTarthHeader(TaskInterface $task)
 static public function isRequestFromTarth()
 ```
 ### Samples
+
+#### Define constants
+
+```php
+define(TARTH_TEST_TASK_API, 'your-test-api');
+```
+
+It is not a `must`.
+
 #### Normal task
 ```bash
 php tests/normal_api_task.php
@@ -62,7 +71,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 \Tarth\Tool\Redis::setCacheServer('127.0.0.1:6379');
 \Tarth\Tool\Redis::setQueueServer('127.0.0.1:6379');
 
-$task = \Tarth\Tool\Task::createApiTask('http://alleria.mcp.wap.grid.sina.com.cn/test/normal');
+$task = \Tarth\Tool\Task::createApiTask(TARTH_TEST_TASK_API);
 echo \Tarth\Tool\Task::exec();
 ```
 #### Timer task
@@ -74,7 +83,7 @@ php tests/timer_task.php
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$task = \Tarth\Tool\Task::createApiTask('http://alleria.mcp.wap.grid.sina.com.cn/test/normal?case=timer&time=' . time());
+$task = \Tarth\Tool\Task::createApiTask(TARTH_TEST_TASK_API . '?case=timer&time=' . time());
 $task->runAfter(100);
 
 echo \Tarth\Tool\Task::exec();
@@ -89,8 +98,8 @@ php tests/multi_task.php
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$task = \Tarth\Tool\Task::createApiTask('http://alleria.mcp.wap.grid.sina.com.cn/test/normal?case=atom&index=1&date=' . date('YmdHis'));
-$task = \Tarth\Tool\Task::createApiTask('http://alleria.mcp.wap.grid.sina.com.cn/test/normal?case=atom&index=2&date=' . date('YmdHis'));
+$task = \Tarth\Tool\Task::createApiTask(TARTH_TEST_TASK_API . '?case=atom&index=1&date=' . date('YmdHis'));
+$task = \Tarth\Tool\Task::createApiTask(TARTH_TEST_TASK_API . '?case=atom&index=2&date=' . date('YmdHis'));
 echo \Tarth\Tool\Task::exec();
 
 ```
@@ -103,8 +112,8 @@ php tests/atom_task.php
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$task = \Tarth\Tool\Task::createApiTask('http://alleria.mcp.wap.grid.sina.com.cn/test/normal?case=atom&index=1&date=' . date('YmdHis'));
-$task = \Tarth\Tool\Task::createApiTask('http://alleria.mcp.wap.grid.sina.com.cn/test/normal?case=atom&index=2&date=' . date('YmdHis'));
+$task = \Tarth\Tool\Task::createApiTask(TARTH_TEST_TASK_API . '?case=atom&index=1&date=' . date('YmdHis'));
+$task = \Tarth\Tool\Task::createApiTask(TARTH_TEST_TASK_API . '?case=atom&index=2&date=' . date('YmdHis'));
 $task = \Tarth\Tool\Task::atomTask();
 $task->runAfter(600)->canClose();
 
